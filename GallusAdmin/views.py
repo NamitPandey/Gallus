@@ -31,7 +31,7 @@ def GallusAdmin(request):
             "total_products":total_products
             })
 
-        return render(request, "Admin/index.html", context=context)
+        return render(request, "Gallus_Admin/index.html", context=context)
     except:
         return redirect(views.index)
 

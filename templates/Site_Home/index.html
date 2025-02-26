@@ -54,7 +54,7 @@
       
       <div class="container-fluid" style="position:fixed; z-index:3;">
         <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
-          <a class="navbar-brand" href="{% url 'gallus:index' %}">
+          <a class="navbar-brand" href="{% url 'gallus:site_index' %}">
             <img src="{% static 'images/gallus_logo.png' %}" alt="" style="width:50px;">
             <span>
               <img src="{% static "images/G.png" %}" alt="X" style="width:22px; padding-bottom:7px;">allus 
@@ -70,7 +70,7 @@
             <div class="d-flex  flex-column flex-lg-row align-items-center w-100 justify-content-between">
               <ul class="navbar-nav  ">
                 <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'gallus:index' %}">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'gallus:site_index' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#"> About </a>
@@ -1092,7 +1092,7 @@
             </h4>
             <ul class="navbar-nav  ">
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'gallus:index' %}">Home</a>
+                <a class="nav-link" href="{% url 'gallus:site_index' %}">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.html"> About </a>

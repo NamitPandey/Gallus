@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import *
 # Create your views here.
 
-def index(request):
+def site_index(request):
 
     about_us = ViewManager.objects.filter(banner_type="About_Us")
     welcome_text = ViewManager.objects.filter(banner_type="Welcome_Screen").order_by("added_on")
