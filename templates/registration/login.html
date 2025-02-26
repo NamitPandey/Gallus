@@ -1,0 +1,86 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+  	<title>Gallus Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'login_page/css/style.css' %}">
+
+	</head>
+	<body class="img js-fullheight" style="background-image: url(static/login_page/images/bg.jpg);">
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Welcome To Gallus Login Portal</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				
+				{% if user.is_authenticated %}
+					<div class="col-md-6 text-center mb-5">
+						<h4 >User <strong>{{user.username}}</strong> is already logged in</h4>
+						<br>
+						<form action="{% url 'gallus:logout' %}" method="POST" class="signin-form">
+							{% csrf_token %}
+							<div class="form-group">
+								<button type="submit" class="form-control btn btn-primary submit px-3" value="Logout">Sign Out</button>
+							</div>
+						</form>
+					</div>
+						
+				{% else %}
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+					<h3 class="mb-4 text-center">Have an account?</h3>
+					<form action="{% url 'gallus:login' %}" method="POST" class="signin-form">
+						{% csrf_token %}
+						<div class="form-group">
+							<input id="id_username" name="username" type="text" class="form-control" placeholder="Username" required>
+						</div>
+						<div class="form-group">
+						<input id="id_password" name="password" type="password" class="form-control" placeholder="Password" required>
+						<span toggle="#id_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+						</div>
+						{% if form.non_field_errors %}
+							<ul class='form-errors'>
+								{% for error in form.non_field_errors %}
+									<li>{{ error }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+						<div class="form-group">
+							<button type="submit" class="form-control btn btn-primary submit px-3" value="Login">Sign In</button>
+						</div>
+					{% comment %} <div class="form-group d-md-flex">
+						<div class="w-50">
+							<label class="checkbox-wrap checkbox-primary">Remember Me
+										<input type="checkbox" checked>
+										<span class="checkmark"></span>
+										</label>
+									</div>
+									<div class="w-50 text-md-right">
+										<a href="#" style="color: #fff">Forgot Password</a>
+									</div>
+					</div> {% endcomment %}
+					</form>
+				{% endif %}
+			</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="{% static 'login_page/js/jquery.min.js' %}"></script>
+  <script src="{% static 'login_page/js/popper.js' %}"></script>
+  <script src="{% static 'login_page/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'login_page/js/main.js' %}"></script>
+
+	</body>
+</html>
+
