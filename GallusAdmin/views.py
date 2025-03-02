@@ -1,17 +1,57 @@
 from ROOT import views
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from ROOT.models import UnauthorizedAccess_Tracker, Products_List
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.views.generic.edit import CreateView, FormView, DeleteView
 
-from django.views.generic import (TemplateView,
-                                  ListView,
-                                  DetailView,
-                                  CreateView,
-                                  UpdateView,
-                                  DeleteView, )
+from .forms import *
+
+# CBV views
+
+class CreateProducts(FormView):
+    model = Products_List
+    form_class = ProjectForm
+    template_name = "Gallus_Admin/product.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Add Product"
+        context['product_types'] = [prod_type[0] for prod_type in Products_List.CHOICES]
+        return context
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+
+        return reverse("Gallus_Admin:GallusAdmin")
+    
+class DeleteProduct(DeleteView):
+    models = Products_List
+    template_name = "Gallus_Admin/deleteProduct.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.request.META)
+        context["Title"] = "Delete Product"
+        return context
+    
+    def get_object(self):
+        id = self.kwargs.get("id")
+        return get_object_or_404(Products_List, id=id)
+    
+    def get_success_url(self):
+        return reverse("Gallus_Admin:GallusAdmin")
+# CBV views end
+
+
 
 
 # Create your views here.
@@ -32,8 +72,9 @@ def GallusAdmin(request):
             })
 
         return render(request, "Gallus_Admin/index.html", context=context)
-    except:
-        return redirect(views.index)
+    except Exception as e:
+        print(e)
+        return HttpResponseRedirect(views.site_index)
 
 
 def UnauthorizedAccess(request):

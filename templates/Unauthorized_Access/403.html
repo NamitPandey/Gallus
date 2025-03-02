@@ -33,7 +33,9 @@
                 </g>
               </svg>
     <h1>You are not allowed to enter here</h1>
-    <h2>Go <a href="{% url 'gallus:index' %}">Home!</a></h2>
   </body>
   <script src="{% static 'Unauthorized_Access/js/403.js' %}"></script>
+  <h2>Go 
+    <a href="{% url 'gallus:site_index' %}">Home!</a>
+  </h2>
 </html>
