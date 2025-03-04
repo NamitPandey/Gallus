@@ -8,7 +8,7 @@ from ROOT.models import UnauthorizedAccess_Tracker, Products_List
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import CreateView, FormView, DeleteView
+from django.views.generic.edit import CreateView, FormView, DeleteView, UpdateView
 
 from .forms import *
 
@@ -26,29 +26,63 @@ class CreateProducts(FormView):
         return context
     
     def form_valid(self, form):
-        form.save()
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.added_by = self.request.user.username
+            obj.save()
         return super().form_valid(form)
     
     def get_success_url(self):
 
         return reverse("Gallus_Admin:GallusAdmin")
     
+# update view
+
+class UpdateProduct(UpdateView):
+    model=Products_List
+    fields=[
+        "product_type",
+        "product_name",
+        "product_description",
+        "price",
+    ]
+    template_name = "Gallus_Admin/modifyProduct.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["Title"] = "Update Product"
+        context["product_types"] = [prod_type[0] for prod_type in Products_List.CHOICES]
+        return context
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.updated_by = self.request.user.username
+            obj.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("Gallus_Admin:GallusAdmin")
+    
+# delete view 
 class DeleteProduct(DeleteView):
     models = Products_List
-    template_name = "Gallus_Admin/deleteProduct.html"
+    template_name = "Gallus_Admin/modifyProduct.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(self.request.META)
         context["Title"] = "Delete Product"
         return context
     
     def get_object(self):
-        id = self.kwargs.get("id")
+        id = self.kwargs.get("pk")
         return get_object_or_404(Products_List, id=id)
     
     def get_success_url(self):
         return reverse("Gallus_Admin:GallusAdmin")
+    
+
+
 # CBV views end
 
 

@@ -1,13 +1,17 @@
 from django.urls import path
 from GallusAdmin import views
+from gallus import settings
+from django.contrib.auth.decorators import login_required
 
 app_name="Gallus_Admin"
+
 
 urlpatterns = [
     path("", views.GallusAdmin, name="GallusAdmin"),
     path("UnauthorizedAccess", views.UnauthorizedAccess, name="UnauthorizedAccess"),
-    path("addProduct", views.CreateProducts.as_view(), name="addProduct"),
-    path("deleteProduct/<int:id>", views.DeleteProduct.as_view(), name="deleteProduct")
+    path("addProduct", login_required(views.CreateProducts.as_view(), login_url=settings.LOGIN_URL), name="addProduct"),
+    path("updateProduct/<int:pk>/", login_required(views.UpdateProduct.as_view(),login_url=settings.LOGIN_URL), name="updateProduct"),
+    path("deleteProduct/<int:pk>", login_required(views.DeleteProduct.as_view(), login_url=settings.LOGIN_URL), name="deleteProduct")
 
 ]
 

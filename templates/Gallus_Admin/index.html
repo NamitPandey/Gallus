@@ -90,7 +90,8 @@
                 <h4 class="card-title mb-1">Products
                   {% if  user.is_superuser %}
                     &nbsp
-                      <i class="mdi mdi-plus-circle-outline"></i>
+                    <a href='{% url "Gallus_Admin:addProduct" %}' style="color:inherit;">
+                      <i class="mdi mdi-plus-circle-outline" style="font-size: 20px;"></i>
                     </a>
                   {% endif %}
                 </h4>
@@ -122,11 +123,16 @@
                               {% if  user.is_superuser %}
                                 &nbsp 
                                 <a href='{% url "Gallus_Admin:deleteProduct" products.id %}' style="color:red"><i class="mdi mdi-delete-forever" style="font-size:20px;"></i></a>
-                                <a href="#" style="color:orange;"><i class="mdi mdi-rename-box" style="font-size:20px;"></i></a> 
+                                <a href='{% url "Gallus_Admin:updateProduct" products.id %}' style="color:orange;"><i class="mdi mdi-rename-box" style="font-size:20px;"></i></a> 
                               {% endif %}
                               
                             </p>
-                            <p class="text-muted mb-0">added by {{products.added_by}} on {{products.added_on}}</p>
+                            {% if products.updated_by|length < 1 %}
+                              <p class="text-muted mb-0">added by {{products.added_by}} on {{products.added_on}}</p>
+                            {% else %}
+                              <p class="text-muted mb-0">updated by {{products.updated_by}} on {{products.added_on}}</p>
+                            {% endif %}
+                            
                           </div>
                         </div>
                       </div>

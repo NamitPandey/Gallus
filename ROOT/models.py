@@ -37,6 +37,7 @@ class Products_List(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     added_on = models.DateTimeField(auto_now=True)
     added_by = models.CharField(max_length=255, db_column="added_by", default="GP")
+    updated_by = models.CharField(max_length=255, db_column="updated_by", default="")
 
     class Meta:
         db_table = "Products_List"

@@ -5,7 +5,7 @@
             "ROOT",
             "GallusAdmin"
         ],
-        "LOGIN_URL":"/admin/login/?next=/",
+        "LOGIN_URL":"/GallusAdmin/UnauthorizedAccess",
         "LOGIN_REDIRECT_URL":"/GallusAdmin",
         "LOGOUT_REDIRECT_URL":"/login",
         "MEDIA_URL":"/media/"
