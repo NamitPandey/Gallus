@@ -98,7 +98,6 @@ def GallusAdmin(request):
         total_products = len(products_list)    
         logged_in_users = len(get_all_logged_in_users())
 
-
         context.update({
             "logged_in_users":logged_in_users,
             "products_list":products_list,

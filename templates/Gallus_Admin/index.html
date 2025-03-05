@@ -104,13 +104,7 @@
                       <div class="preview-item border-bottom">
                         <div class="preview-thumbnail">
                           <div class="preview-icon">
-                            {% if products.product_type == "Capsule"%}
-                              <i ><img src="{% static 'Admin/assets/images/medicine.png' %}"></i>
-                            {% elif  products.product_type == "Injection" %}
-                              <i ><img src="{% static 'Admin/assets/images/injection.png' %}"></i>
-                            {% else %}
-                              <i ><img src="{% static 'Admin/assets/images/syrup.png' %}"></i>
-                            {% endif %}
+                              <i ><img src="{% static 'Admin/assets/images/' %}{{products.product_type}}.png"></i>
                           </div>
                         </div>
                         <div class="preview-item-content d-sm-flex flex-grow">
