@@ -1,4 +1,5 @@
 from ROOT import views
+from ROOT.models import *
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -81,6 +82,26 @@ class DeleteProduct(DeleteView):
     def get_success_url(self):
         return reverse("Gallus_Admin:GallusAdmin")
     
+class ManageSite(FormView):
+    model = ViewManager
+    form_class = ViewManagerForm
+    template_name = "Gallus_Admin/manage_site.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_type'] = [prod_type[0] for prod_type in ViewManager.CHOICES]
+        return context
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.added_by = self.request.user.username
+            obj.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+
+        return reverse("Gallus_Admin:GallusAdmin")
 
 
 # CBV views end

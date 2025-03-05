@@ -11,7 +11,8 @@ urlpatterns = [
     path("UnauthorizedAccess", views.UnauthorizedAccess, name="UnauthorizedAccess"),
     path("addProduct", login_required(views.CreateProducts.as_view(), login_url=settings.LOGIN_URL), name="addProduct"),
     path("updateProduct/<int:pk>/", login_required(views.UpdateProduct.as_view(),login_url=settings.LOGIN_URL), name="updateProduct"),
-    path("deleteProduct/<int:pk>", login_required(views.DeleteProduct.as_view(), login_url=settings.LOGIN_URL), name="deleteProduct")
+    path("deleteProduct/<int:pk>", login_required(views.DeleteProduct.as_view(), login_url=settings.LOGIN_URL), name="deleteProduct"),
+    path("manage_site", login_required(views.ManageSite.as_view(), login_url=settings.LOGIN_URL), name="manage_site")
 
 ]
 
