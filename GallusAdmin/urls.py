@@ -12,7 +12,9 @@ urlpatterns = [
     path("addProduct", login_required(views.CreateProducts.as_view(), login_url=settings.LOGIN_URL), name="addProduct"),
     path("updateProduct/<int:pk>/", login_required(views.UpdateProduct.as_view(),login_url=settings.LOGIN_URL), name="updateProduct"),
     path("deleteProduct/<int:pk>", login_required(views.DeleteProduct.as_view(), login_url=settings.LOGIN_URL), name="deleteProduct"),
-    path("manage_site", login_required(views.ManageSite.as_view(), login_url=settings.LOGIN_URL), name="manage_site")
-
+    path("manage_site", login_required(views.ManageSite.as_view(), login_url=settings.LOGIN_URL), name="manage_site"),
+    path("submitForm/<int:formNumber>", views.submitForm, name="submitForm"),
+    path("updateSiteContent/<int:pk>", views.updateSiteContent, name="updateSiteContent"),
+    path("deleteSiteContent/<int:pk>", views.deleteSiteContent, name="deleteSiteContent")
 ]
 

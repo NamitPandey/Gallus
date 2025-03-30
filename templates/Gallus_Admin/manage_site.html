@@ -16,7 +16,7 @@
           <div class="card-body">
             <h4 class="card-title">Add Content To Welcome Screen</h4>
             {% comment %} <p class="card-description"> Add a new product</p> {% endcomment %}
-            <form class="forms-sample" method = "POST" action='{% url "Gallus_Admin:manage_site" %}' >
+            <form class="forms-sample" method = "POST" action='{% url "Gallus_Admin:submitForm" 1 %}' >
               {% csrf_token %}
               <div class="form-group">
                 <label for="exampleInputUsername1">Category</label>
@@ -33,18 +33,200 @@
                 {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Product Discription"> {% endcomment %}
                 <textarea class="form-control" name="title_text" cols="50" rows="10" wrap="physical" maxlength="1025" id="id_title_text exampleInputEmail1" placeholder="Discription" required></textarea>
               </div>   
-              <div class="form-group">
-                {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Product Discription"> {% endcomment %}
+              {% comment %} <div class="form-group">
+                <label for="exampleInputUsername1">Added By</label>
+                <input type="text" class="form-control" value="{{user.username}}" id="id_added_by" name="added_by" placeholder="{{user.username}}">
                 <textarea class="form-control" name="feedback_by" cols="50" rows="10" wrap="physical" maxlength="1025" id="id_feedback_by exampleInputEmail1" placeholder="Discription" hidden></textarea>
-              </div>            
+              </div>             {% endcomment %}
               <button type="submit" class="btn btn-primary mr-2">Submit</button>              
             </form>
           </div>
         </div>
       </div>
+
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Add Client's Feedback</h4>
+            {% comment %} <p class="card-description"> Add a new product</p> {% endcomment %}
+              <form class="forms-sample" method = "POST" action='{% url "Gallus_Admin:submitForm" 2 %}' >
+              {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInputUsername1">Category</label>
+                  <select class="form-control" id="id_banner_type exampleSelectGender" name="banner_type">
+                      <option value="Feedback" selected>Feedback</option>                  
+                  </select>
+                </div>
+              {% comment %} <div class="form-group">
+                <label for="exampleInputUsername1">Title</label>
+                <input id="id_banner_title exampleInputUsername1" name="banner_title" type="text" class="form-control" placeholder="Title" required>
+              </div>               {% endcomment %}
+                <div class="form-group">
+                  <label for="exampleInputEmail1">What Your Client Says</label>
+                  {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Product Discription"> {% endcomment %}
+                  <textarea class="form-control" name="title_text" cols="50" rows="10" wrap="physical" maxlength="1025" id="id_title_text exampleInputEmail1" placeholder="Discription" required></textarea>
+                </div>   
+                <div class="form-group">
+                  <label for="exampleInputUsername1">Client's Company Name</label>
+                  {% comment %} <input type="text" class="form-control" id="id_feedbackby" name="feedbackby" placeholder="Feedback By" required> {% endcomment %}
+                  <input class="form-control" type="text" name="client_company" placeholder="Client's Company Name" maxlength="255" required="" id="id_client_company">
+                  {% comment %} <textarea class="form-control" name="feedback_by" cols="50" rows="10" wrap="physical" maxlength="1025" id="id_feedback_by exampleInputEmail1" placeholder="Discription" hidden></textarea> {% endcomment %}
+                </div> 
+                <div class="form-group">
+                  <label for="exampleInputUsername1">FeedBack By</label>
+                  {% comment %} <input type="text" class="form-control" id="id_feedbackby" name="feedbackby" placeholder="Feedback By" required> {% endcomment %}
+                  <input type="text" class="form-control" name="feedback_by" maxlength="255" required="" id="id_feedback_by" placeholder="Feedback By">
+                  {% comment %} <textarea class="form-control" name="feedback_by" cols="50" rows="10" wrap="physical" maxlength="1025" id="id_feedback_by exampleInputEmail1" placeholder="Discription" hidden></textarea> {% endcomment %}
+                </div>       
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>              
+            </form>
+            {% comment %} {{form2.as_p}} {% endcomment %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Welcome Screen List</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="preview-list">
+                  {% for site_data in all_welcome_data %}
+                    <div class="preview-item border-bottom">
+                      {% comment %} <div class="preview-thumbnail">
+                        <div class="preview-icon">
+                            <i ><img src="{% static 'Admin/assets/images/' %}{{site_data.banner_type}}.png"></i>
+                        </div>
+                      </div> {% endcomment %}
+                      <div class="preview-item-content d-sm-flex flex-grow">
+                        <div class="flex-grow">
+                          <h6 class="preview-subject">{{site_data.banner_title}}</h6>
+                          <p class="text-muted mb-0" title="{{site_data.title_text}}">{{site_data.title_text|truncatechars:30}}</p>
+                        </div>
+                        <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                          <p class="text-muted">
+                            {% if  user.is_superuser %}
+                              &nbsp 
+                              <a href='{% url "Gallus_Admin:deleteSiteContent" site_data.id %}' style="color:red"><i class="mdi mdi-delete-forever" style="font-size:20px;"></i></a>
+                              <a href='{% url "Gallus_Admin:updateSiteContent" site_data.id %}' style="color:orange;"><i class="mdi mdi-rename-box" style="font-size:20px;"></i></a> 
+                            {% endif %}
+                            
+                          </p>
+                          {% if site_data.updated_by  != NA %}
+                            <p class="text-muted mb-0">added by {{site_data.added_by}} on {{site_data.added_on}}</p>
+                          {% else %}
+                            <p class="text-muted mb-0">updated by {{site_data.updated_by}} on {{site_data.added_on}}</p>
+                          {% endif %}
+                          
+                        </div>
+                      </div>
+                    </div>
+                    
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Feedback Screen List</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="preview-list">
+                  {% for feedback_data in all_feedback_data %}
+                    <div class="preview-item border-bottom">
+                      {% comment %} <div class="preview-thumbnail">
+                        <div class="preview-icon">
+                            <i ><img src="{% static 'Admin/assets/images/' %}{{site_data.banner_type}}.png"></i>
+                        </div>
+                      </div> {% endcomment %}
+                      <div class="preview-item-content d-sm-flex flex-grow">
+                        <div class="flex-grow">
+                          <h6 class="preview-subject">{{feedback_data.feedback_by}} says...</h6>
+                          <p class="text-muted mb-0" title="{{feedback_data.title_text}}">{{feedback_data.title_text|truncatechars:30}}</p>
+                        </div>
+                        <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                          <p class="text-muted">
+                            {% if  user.is_superuser %}
+                              &nbsp 
+                              <a href='{% url "Gallus_Admin:deleteSiteContent" feedback_data.id %}' style="color:red"><i class="mdi mdi-delete-forever" style="font-size:20px;"></i></a>
+                              <a href='{% url "Gallus_Admin:updateSiteContent" feedback_data.id %}' style="color:orange;"><i class="mdi mdi-rename-box" style="font-size:20px;"></i></a> 
+                            {% endif %}
+                            
+                          </p>
+                          {% if feedback_data.updated_by != NA %}
+                            <p class="text-muted mb-0">added by {{feedback_data.added_by}} on {{feedback_data.added_on}}</p>
+                          {% else %}
+                            <p class="text-muted mb-0">updated by {{feedback_data.updated_by}} on {{feedback_data.added_on}}</p>
+                          {% endif %}
+                          
+                        </div>
+                      </div>
+                    </div>
+                    
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">About Us</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="preview-list">
+                  {% for data in aboutUs %}
+                    <div class="preview-item border-bottom">
+                      {% comment %} <div class="preview-thumbnail">
+                        <div class="preview-icon">
+                            <i ><img src="{% static 'Admin/assets/images/' %}{{site_data.banner_type}}.png"></i>
+                        </div>
+                      </div> {% endcomment %}
+                      <div class="preview-item-content d-sm-flex flex-grow">
+                        <div class="flex-grow">
+                          <h6 class="preview-subject">{{data.banner_title}}</h6>
+                          <p class="text-muted mb-0" title="{{data.title_text}}">{{data.title_text|truncatechars:30}}</p>
+                        </div>
+                        <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                          <p class="text-muted">
+                            {% if  user.is_superuser %}
+                              &nbsp 
+                              {% comment %} <a href='{% url "Gallus_Admin:deleteSiteContent" data.id %}' style="color:red"><i class="mdi mdi-delete-forever" style="font-size:20px;"></i></a> {% endcomment %}
+                              <a href='{% url "Gallus_Admin:updateSiteContent" data.id %}' style="color:orange;"><i class="mdi mdi-rename-box" style="font-size:20px;"></i></a> 
+                            {% endif %}
+                            
+                          </p>
+                          {% if site_data.updated_by  != NA %}
+                            <p class="text-muted mb-0">added by {{data.added_by}} on {{data.added_on}}</p>
+                          {% else %}
+                            <p class="text-muted mb-0">updated by {{data.updated_by}} on {{data.added_on}}</p>
+                          {% endif %}
+                          
+                        </div>
+                      </div>
+                    </div>
+                    
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-md-6 grid-margin stretch-card">
     </div>
   </div>
 </div>
+
 
 {% endblock content %}

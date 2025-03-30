@@ -1,0 +1,50 @@
+{% extends "Gallus_Admin/base_index.html" %}
+{% load static %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<style>
+  textarea {
+    background-color: black;color:#fff;
+  }
+  input:disabled, textarea:disabled{
+    color: black;
+  }
+</style>
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Edit Section: {{title}}</h4>
+              {% comment %} <p class="card-description">Are you sure you want to delete <strong>{{object.product_name}}</strong> ?</p> {% endcomment %}
+              <form class="forms-sample" id="disabled">
+                  {% csrf_token %}
+                  {{form.as_p}}
+              </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Edit Section: {{title}}</h4>
+              {% comment %} <p class="card-description">Are you sure you want to delete <strong>{{object.product_name}}</strong> ?</p> {% endcomment %}
+              <form class="forms-sample" method = "POST" action='{% url "Gallus_Admin:updateSiteContent" pk %}' >
+                  {% csrf_token %}
+                  {{form.as_p}}
+                  <button type="submit" class="btn btn-primary mr-2">Update</button>              
+              </form>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#disabled :input").prop("disabled", true);
+});
+</script>
+{% endblock content %}

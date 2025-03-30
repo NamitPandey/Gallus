@@ -14,8 +14,10 @@ class ViewManager(models.Model):
     banner_title = models.CharField(max_length=555,db_column="banner_title", default="not_available")
     title_text = models.TextField(max_length=1025,db_column="title_text", null=False)
     feedback_by = models.CharField(max_length=255, db_column="feedback_by", default="not_available")
+    client_company = models.CharField(max_length=255, db_column="client_company", default="Anonymous")
     added_on = models.DateTimeField(auto_now=True)
     added_by = models.CharField(max_length=255, db_column="added_by", default="GP")
+    updated_by = models.CharField(max_length=255, db_column="updated_by", default="NA")
 
     class Meta:
         db_table = "ViewManager"
