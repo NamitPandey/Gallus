@@ -1,6 +1,6 @@
 {
     "SECRET_KEY":"django-insecure-nh+5j1h&-!+b*q@d@=ubllr2-hlzmf0uh04b$svw=z^kp#^%mb",
-    "ALLOWED_HOSTS":["galluspharmaceuticals.com", "127.0.0.1"],
+    "ALLOWED_HOSTS":["galluspharmaceuticals.com", "127.0.0.1", "galluspharmaceuticals.pythonanywhere.com"],
     "INSTALLED_APPS":[
             "ROOT",
             "GallusAdmin"
